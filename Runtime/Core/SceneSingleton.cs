@@ -1,5 +1,7 @@
 using UnityEngine;
 
+// Usage
+// public class GameManager : PersistentSingleton<GameManager>
 public class SceneSingleton<T> : MonoBehaviour where T : MonoBehaviour
 {
     private static T instance;
