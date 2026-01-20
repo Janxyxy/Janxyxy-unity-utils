@@ -1,15 +1,17 @@
 using UnityEngine;
 
-// Usage
-// public class GameManager : PersistentSingleton<GameManager>
 public class SceneSingleton<T> : MonoBehaviour where T : MonoBehaviour
 {
     private static T instance;
+    private static bool isShuttingDown = false;
 
     public static T Instance
     {
         get
         {
+            if (isShuttingDown)
+                return null;
+
             if (instance == null)
             {
                 instance = FindFirstObjectByType<T>();
@@ -26,6 +28,8 @@ public class SceneSingleton<T> : MonoBehaviour where T : MonoBehaviour
 
     protected virtual void Awake()
     {
+        isShuttingDown = false;
+        
         if (instance == null)
         {
             instance = this as T;
@@ -40,6 +44,7 @@ public class SceneSingleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         if (instance == this)
         {
+            isShuttingDown = true;
             instance = null;
         }
     }
